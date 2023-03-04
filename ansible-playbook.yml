@@ -1,0 +1,14 @@
+- hosts: prod
+  become: yes
+  tasks:
+  - name: Stop Docker container
+    shell: docker stop $(docker ps -a -q)
+
+  - name: Remove Docker container
+    shell: docker rm $(docker ps -aq)
+
+  - name: Pull image from DockerHub
+    shell: docker pull dockerhub:5000/petclinic-app:latest
+
+  - name: Start Docker new container
+    shell:  docker compose up -d

@@ -1,0 +1,38 @@
+version: "3.9"
+
+services: 
+  mysql:
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+      - MYSQL_USER=petclinic
+      - MYSQL_PASSWORD=petclinic
+      - MYSQL_DATABASE=petclinic
+    volumes:
+      - mysql_data:/var/lib/mysql
+  
+  web-app:
+    depends_on:
+      - mysql
+    build:
+      context: .
+    ports: 
+      - 8000:8080
+      - 8080:8080 
+    environment: 
+      - SERVER_PORT=8080
+      - MYSQL_URL=jdbc:mysql://mysqlserver/petclinic
+
+
+volumes:
+  mysql_data:
+    driver: local
+
+
+
+    
+
+
+
